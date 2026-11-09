@@ -51,11 +51,12 @@ async function main() {
   if (!gitCmd) {
     console.log('[!] May tinh chua cai Git. Dang tu dong tai va cai dat Git for Windows...');
     console.log('    (Vui long bam "Yes" neu hop thoai quyen Admin hien len)\n');
-    spawnSync(
-      'winget',
-      ['install', '--id', 'Git.Git', '-e', '--source', 'winget', '--accept-package-agreements', '--accept-source-agreements'],
-      { stdio: 'inherit', shell: true }
-    );
+    try {
+      execSync(
+        'winget install --id Git.Git -e --source winget --accept-package-agreements --accept-source-agreements',
+        { stdio: 'inherit' }
+      );
+    } catch (_) {}
     gitCmd = findGitExecutable();
   }
 
@@ -93,14 +94,23 @@ async function main() {
     console.log('-> (Cac file da duoc commit truoc do)');
   }
 
-  console.log('\n--------------------------------------------------------------------');
-  console.log('Buoc 1: Mo trinh duyet vao https://github.com/new');
-  console.log('Buoc 2: Dat ten Repository (vi du: floodavoid) -> chon Public -> bam Create repository');
-  console.log('--------------------------------------------------------------------\n');
+  let repoUrl = '';
+  try {
+    repoUrl = execSync(`${gitCmd} remote get-url origin`, { encoding: 'utf8', cwd: __dirname }).trim();
+  } catch (_) {}
 
-  const repoUrl = await askQuestion(
-    'Dan duong dan GitHub Repo cua ban vao day (VD: https://github.com/ten-ban/floodavoid.git): '
-  );
+  if (!repoUrl) {
+    console.log('\n--------------------------------------------------------------------');
+    console.log('Buoc 1: Mo trinh duyet vao https://github.com/new');
+    console.log('Buoc 2: Dat ten Repository (vi du: floodavoid) -> chon Public -> bam Create repository');
+    console.log('--------------------------------------------------------------------\n');
+
+    repoUrl = await askQuestion(
+      'Dan duong dan GitHub Repo cua ban vao day (VD: https://github.com/ten-ban/floodavoid.git): '
+    );
+  } else {
+    console.log(`-> Dang su dung GitHub Repo da cau hinh: ${repoUrl}`);
+  }
 
   if (!repoUrl) {
     console.log('\n[!] Ban chua nhap duong dan Repo. Hay chay lai PUSH-TO-GITHUB.bat khi da co link!');
@@ -112,8 +122,8 @@ async function main() {
   } catch (_) {}
 
   runGit(gitCmd, `remote add origin "${repoUrl}"`);
-  console.log('\n-> Dang day ma nguon len GitHub (Cua so dang nhap GitHub se hien len neu la lan dau)...');
-  runGit(gitCmd, 'push -u origin main');
+  console.log('\n-> Dang day ma nguon len GitHub...');
+  runGit(gitCmd, 'push -u origin main --force');
 
   console.log('\n====================================================================');
   console.log('  THANH CONG! Ma nguon va file ATLANTIS-AI.apk da len GitHub!');

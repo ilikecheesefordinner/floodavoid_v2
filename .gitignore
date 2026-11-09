@@ -1,0 +1,29 @@
+# Node & Build dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Secrets (không bao giờ đẩy file .env chứa API Key lên GitHub)
+.env
+.env.*
+*.pem
+*.key
+*.jks
+*.keystore
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Android Gradle local cache
+android/.gradle/
+android/local.properties
+android/app/build/intermediates/
+android/app/build/tmp/
+
+# Tài liệu quản lý dự án cá nhân / môn học (tùy chọn giữ riêng trên máy)
+QLDA1.xlsx
+ATLANTIS-Project Charter EN.pdf

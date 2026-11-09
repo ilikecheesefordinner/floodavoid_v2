@@ -1,0 +1,31 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'vn.atlantis.floodai'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "vn.atlantis.floodai"
+        minSdk 23
+        targetSdk 34
+        versionCode 38
+        versionName "3.8.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            applicationIdSuffix ""
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}

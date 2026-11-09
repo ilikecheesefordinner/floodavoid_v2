@@ -1,0 +1,17 @@
+{
+  "name": "atlantis-flood-ai",
+  "version": "1.0.0",
+  "description": "ATLANTIS - Ứng dụng Android/iOS Phát hiện Ngập lụt, AI Dự báo Thủy văn, Camera Đường phố & Điều hướng Turn-by-Turn",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:apk": "node build-apk.js",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
+}
